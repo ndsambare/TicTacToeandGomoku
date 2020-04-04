@@ -43,39 +43,3 @@ error Game::prompt(unsigned int& xcoord, unsigned int& ycoord) {
 	return error::failure;
 }
 
-
-//calls the turn function repeatedly until i) someone has won 2) there is a draw or 3) someone has quit
-result Game::play() {
-	bool end = true;
-	result res;
-	while (end == true) {
-		cout << "Turn: " << turns << endl;
-		error result;
-		result = turn();
-		if (result == error::quit) {
-			cout << "User has quit. There have been " << turns << " rounds." << endl;
-			res = result::quitEnd;
-			break;
-		}
-		if (done() == true) {
-			if (winner == Piece::o) {
-				cout << "Player O has won!" << endl;
-			}
-			if (winner == Piece::x) {
-				cout << "Player X has won!" << endl;
-			}
-			res = result::winner;
-			end = false;
-			break;
-		}
-		if (draw() == true) {
-			cout << "It's a draw!" << endl;
-			res = result::draw;
-			end = false;
-			break;
-		}
-		cout << "-------------------------------" << endl;
-	}
-	return res;
-}
-
