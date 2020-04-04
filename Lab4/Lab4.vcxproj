@@ -149,10 +149,12 @@
   <ItemGroup>
     <ClCompile Include="GameBase.cpp" />
     <ClCompile Include="Lab4.cpp" />
+    <ClCompile Include="TicTacToe.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="GameBase Header.h" />
     <ClInclude Include="Main Header.h" />
+    <ClInclude Include="TicTacToe.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

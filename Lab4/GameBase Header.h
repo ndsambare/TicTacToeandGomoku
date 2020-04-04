@@ -20,41 +20,25 @@ enum result {
 };
 
 class Game {
-	friend ostream& operator<<(ostream& out, const Game& f);
 
 public:
-	Game();
+	virtual result play() = 0;
+	
+	int turns;
+	static Game* create_game(int argc, char* argv[]);
+protected:
 	virtual void print() = 0;
 	virtual bool done() = 0;
 	virtual bool draw() = 0;
-	error prompt(unsigned int&, unsigned int&);
 	virtual error turn() = 0;
-	result play();
-	error auto_player(); //part of extra credit
-	bool computer; //part of extra credit
-	int turns;
-protected:
+	virtual error prompt(unsigned int&, unsigned int&);
+
 	int _width;
 	int _height;
-	Piece board[20][20];
+	Piece** board;
 	int longestStringLength;
 };
 
-class TicTacToe: public Game {
-
-public:
-	virtual bool done();
-	virtual bool draw();
-	virtual error turn();
-	virtual void print() {
-		cout << *this << endl;
-	}
-private:
-	
-	Piece winner;
-};
 
 
 
-
-ostream& operator<<(ostream& out, const Game& f);

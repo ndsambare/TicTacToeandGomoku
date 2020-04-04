@@ -4,30 +4,20 @@
 #include <iostream>
 #include "Main Header.h"
 #include "GameBase Header.h"
+#include "TicTacToe.h"
+#include <memory>
 
 //Main method that calls the TicTacToe game to be played
 int main(int argc, char* argv[])
 {
-	string check = argv[filename];
-	if (argc == expCommands || argc == expCommands2) {
-		if (check == "TicTacToe") {
-			TicTacToe game = TicTacToe();
-			if (argc == expCommands) {
-				game.computer = false;
-			}
-			if (argc == expCommands2) {
-				string autocheck = argv[expCommands];
-				if (autocheck == "auto_player") {
-					game.computer = true;
-				}
-				else {
-					return usageMessage(argv[progname]);
-				}
-			}
-			result res = game.play();
-			return res;
-		}
+	Game* game = Game::create_game(argc, argv);
+	if (game == 0) {
+		return usageMessage(argv[progname]);
 	}
+	
+	game.play();
+	delete game;
+	
 	return usageMessage(argv[progname]);
 }
 
