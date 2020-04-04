@@ -21,21 +21,36 @@ enum result {
 
 class Game {
 	friend ostream& operator<<(ostream& out, const Game& f);
+
 public:
 	Game();
-	bool done();
-	bool draw();
+	virtual void print() = 0;
+	virtual bool done() = 0;
+	virtual bool draw() = 0;
 	error prompt(unsigned int&, unsigned int&);
-	error turn();
+	virtual error turn() = 0;
 	result play();
 	error auto_player(); //part of extra credit
 	bool computer; //part of extra credit
-
-private:
-	Piece board[5][5];
+	int turns;
+protected:
 	int _width;
 	int _height;
-	int turns;
+	Piece board[20][20];
+	int longestStringLength;
+};
+
+class TicTacToe: public Game {
+
+public:
+	virtual bool done();
+	virtual bool draw();
+	virtual error turn();
+	virtual void print() {
+		cout << *this << endl;
+	}
+private:
+	
 	Piece winner;
 };
 

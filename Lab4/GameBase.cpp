@@ -1,10 +1,13 @@
 #include <iostream>
 #include "GameBase Header.h"
 #include "Main Header.h"
+#include <sstream>
+#include <iostream>
+#include <iomanip>
 
 //constructor
 Game::Game()
-	:_width(5), _height(5), turns(1), board(), winner()
+	:_width(20), _height(20), board(),longestStringLength(2)
 {
 	for (int i = 0; i < _width; ++i) {
 		for (int j = 0; j < _height; ++j) {
@@ -16,30 +19,30 @@ Game::Game()
 //prints out the gameboard with the dimensions along the sides
 ostream& operator<<(ostream& out, const Game& f) {
 	for (int i = f._height - 1; i >= 0; i--) {
-		out << i;
+		out << setw(3) << i;
 		for (int j = 0; j < f._width; j++) {
 			if (f.board[j][i] == Piece::o) {
-				out << "O";
+				out << setw(3) << "O";
 			}
 			if (f.board[j][i] == Piece::x) {
-				out << "X";
+				out << setw(3) << "X";
 			}
 
 			if (f.board[j][i] == Piece::empty) {
-				out << " ";
+				out << setw(3) << " ";
 			}
 		}
 		out << endl;
 	}
-	out << " ";
+	out << "   ";
 	for (int i = 0; i < f._width; i++) {
-		out << i;
+		out << setw(3) << i;
 	}
 	return out;
 }
 
 //checks to see if someone has won yet
-bool Game::done() {
+bool TicTacToe::done() {
 	//check rows
 	for (int i = 1; i < _height - 1; i++) {
 		if (board[1][i] == board[2][i] && board[1][i] == board[3][i] && board[1][i] != Piece::empty) {
@@ -70,7 +73,7 @@ bool Game::done() {
 }
 
 //checks to see if more moves can be made
-bool Game::draw() {
+bool TicTacToe::draw() {
 	if (done() == true) {
 		return false;
 	}
@@ -115,7 +118,7 @@ error Game::prompt(unsigned int& xcoord, unsigned int& ycoord) {
 }
 
 //indicates whose turn it is and adds the valid input coordinate to the board
-error Game::turn() {
+error TicTacToe::turn() {
 	Piece piece;
 	if (turns % 2 == 0) { //X's turn
 		piece = Piece::x;
@@ -136,7 +139,7 @@ error Game::turn() {
 	if (result == error::quit) {
 		return error::quit;
 	}
-	cout << *this << endl;
+	print();
 	cout << endl;
 	cout << "Player ";
 	if (piece == Piece::o) {

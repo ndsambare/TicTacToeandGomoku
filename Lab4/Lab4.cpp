@@ -2,19 +2,39 @@
 //
 
 #include <iostream>
+#include "Main Header.h"
+#include "GameBase Header.h"
 
-int main()
+//Main method that calls the TicTacToe game to be played
+int main(int argc, char* argv[])
 {
-    std::cout << "Hello World!\n";
+	string check = argv[filename];
+	if (argc == expCommands || argc == expCommands2) {
+		if (check == "TicTacToe") {
+			TicTacToe game = TicTacToe();
+			if (argc == expCommands) {
+				game.computer = false;
+			}
+			if (argc == expCommands2) {
+				string autocheck = argv[expCommands];
+				if (autocheck == "auto_player") {
+					game.computer = true;
+				}
+				else {
+					return usageMessage(argv[progname]);
+				}
+			}
+			result res = game.play();
+			return res;
+		}
+	}
+	return usageMessage(argv[progname]);
 }
 
-// Run program: Ctrl + F5 or Debug > Start Without Debugging menu
-// Debug program: F5 or Debug > Start Debugging menu
-
-// Tips for Getting Started: 
-//   1. Use the Solution Explorer window to add/manage files
-//   2. Use the Team Explorer window to connect to source control
-//   3. Use the Output window to see build output and other messages
-//   4. Use the Error List window to view errors
-//   5. Go to Project > Add New Item to create new code files, or Project > Add Existing Item to add existing code files to the project
-//   6. In the future, to open this project again, go to File > Open > Project and select the .sln file
+//Usage Message
+//Outputs a helpful message if an incorrect input is typed.
+int usageMessage(char* cString) {
+	cout << "Usage: " << cString << " " << "<input_file_type>" << endl;
+	cout << "The <input_file_type> for this file is 'TicTacToe'" << endl;
+	return failure;
+}
