@@ -14,3 +14,7 @@ enum arg {
 };
 
 int usageMessage(char*);
+
+enum values {
+	inARow = 5
+};

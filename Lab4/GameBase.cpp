@@ -2,11 +2,14 @@
 #include "GameBase Header.h"
 #include "Main Header.h"
 #include "TicTacToe.h"
-
+//we have to add a play method in GameBase I think 
 Game* create_game(int argc, char* argv[]) {
 	shared_ptr<Game> pointer = nullptr;
 	if (argv[1] == "TicTacToe") {
 		return (class Game*) new TicTacToe();
+	}
+	else if (argv[1] == "Gomoku") {
+		return (class Game*) new Gomoku();
 	}
 	else {
 		return 0;
