@@ -14,10 +14,11 @@ class Gomoku;
 int main(int argc, char* argv[])
 {
 	Game* game = Game::create_game(argc, argv);
+	if (game == nullptr) {
+		return usageMessage(argv[progname]);
+	}
 	result res = game->play();
-	cout << res << endl;
-	
-	return usageMessage(argv[progname]);
+	return res;
 }
 
 //Usage Message

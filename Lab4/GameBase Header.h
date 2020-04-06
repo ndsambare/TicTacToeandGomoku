@@ -30,8 +30,7 @@ protected:
 	virtual bool draw() = 0;
 	virtual error turn() = 0;
 	virtual error prompt(unsigned int&, unsigned int&);
-	string board[5][5];
-	//we have to fix the game board and once we fix that we have to make sure the rest of our code is compatible with the working game board
+	vector<string> board;
 	int _width;
 	int _height;
 	int longestStringLength;

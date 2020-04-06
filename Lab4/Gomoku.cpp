@@ -10,21 +10,60 @@ using namespace std;
 
 Gomoku::Gomoku()
 {
-	_width = 20;
-	_height = _width;
-	
-	for (int i = 0; i < _width; ++i) {
-		for (int j = 0; j < _height; ++j) {
-			board[i][j] = " ";
+	Game::_width = 20;
+	Game::_height = _width;
+	piecesInARow = 5;
+	longestStringLength = 3;
+
+	for (int i = 0; i < _height; ++i) {
+		for (int j = 0; j < _width; ++j) {
+			board.push_back(" ");
 		}
 	}
 }
 
 error Gomoku::turn() {
+	string piece;
+	if (turns % 2 == 0) { //X's turn
+		piece = "X";
+	}
+	else { //O's turn
+		piece = "O";
+	}
+	unsigned int x, y;
+	unsigned int& xref = x;
+	unsigned int& yref = y;
+	error result = prompt(xref, yref);
+	cout << result << endl;
+	while (result == error::failure) {
+		result = prompt(xref, yref);
+	}
+	if (result == error::success) {
+		board.at((__int64)_width * yref + xref) = piece; //inserts piece
+	}
+	if (result == error::quit) {
+		return error::quit;
+	}
+	print();
+	cout << endl;
+	cout << "Player ";
+	if (piece == "O") {
+		cout << "O: ";
+	}
+	else {
+		cout << "X: ";
+	}
+	for (int i = 0; i < _height; ++i) {
+		for (int j = 0; j < _width; ++j) {
+			if (board.at((__int64)_width * i + j) == piece) {
+				cout << i << ", " << j << "; ";
+			}
+		}
+	}
+	cout << endl;
+	++turns; // increments number of turns that have happened
 	return error::success;
 }
-
-
 
 
 //prints out the gameboard with the dimensions along the sides
@@ -32,13 +71,13 @@ ostream& operator<<(ostream& out, const Gomoku& f) {
 	for (int i = f._height - 1; i >= 0; i--) {
 		out << setw(f.longestStringLength) << i;
 		for (int j = 0; j < f._width; j++) {
-			out << setw(f.longestStringLength) << f.board[i][j];
+			out  << f.board.at((__int64)f._width*i+j) << setw(f.longestStringLength);
 		}
 		out << endl;
 	}
-	out << "X";
+	out << "  X";
 	for (int i = 0; i < f._width; i++) {
-		out << setw(f.longestStringLength) << i;
+		out << i << setw(f.longestStringLength);
 	}
 	return out;
 }
@@ -55,7 +94,7 @@ bool Gomoku::draw() {
 	else {
 		for (int i = 0; i < _height; i++) {
 			for (int j = 0; j < _width; j++) {
-				if (board[i][j] == " ") {
+				if (board.at((__int64)_width*i+j) == " ") {
 					return false;
 				}
 			}
@@ -66,198 +105,132 @@ bool Gomoku::draw() {
 }
 
 bool Gomoku::done() {
-	for (int i = 0; i < _height; i++) {
-		for (int j = 0; j < _width; j++) {
-			int doneIndex = _width * i + j; 
-			string pieceOnBoard = "";
-			pieceOnBoard = board[i][j]; 
-
-			//checking both diagonals 
-			int piecesInARow = 1; 
-			int i_value = i; 
-			int j_value = j; 
-
-			while (j_value > 0 && i_value < _height) {
-				//we are checking the diagonal going from right to left, so the i value increases, but the j value decreases
-				i_value = i_value + 1; 
-				j_value = j_value - 1; 
-				
-				//check if the piece matches the other and that it is not empty
-				if (pieceOnBoard == board[i_value][j_value] && pieceOnBoard != " ") {
-					piecesInARow++; 
-
-					//check to see if the pieces in a row is equal to 5
-					if (piecesInARow == 5) {
-						return true; 
-					}
+	int count = 0;
+	string pieceCheck;
+	//check diagonals going bottom left to top right
+	for (int i = 0; i < _height; ++i) {
+		int xval = 0;
+		int yval = i;
+		while (xval < _width && yval < _height) {
+			xval++;
+			yval++;
+			if (xval > 0 && yval > i && xval <_width && yval < _height) {
+				pieceCheck = board.at((__int64)_width * yval + xval);
+				if (pieceCheck == board.at((__int64)_width * ((__int64)yval-1) + ((__int64)xval-1)) && pieceCheck != " ") {
+					++count;
 				}
 				else {
-					//reset the pieces in a row back to 1
-					piecesInARow = 1; 
+					count = 0;
 				}
 			}
-			//reset the counter variables here so that we can check again on the the diagonal here where i decreases and j increases
-			piecesInARow = 1; 
-			i_value = i; 
-			j_value = j;
-			while (i_value > 0 && j_value < _height) {
-				i_value--; 
-				j_value++; 
-
-				if (pieceOnBoard == board[i_value][j_value] && pieceOnBoard != " ") {
-					piecesInARow++;
-
-					//check to see if the pieces in a row is equal to 5
-					if (piecesInARow == 5) {
-						
-						return true;
-					}
-				}
-				else {
-					//reset the pieces in a row back to 1
-					piecesInARow = 1;
-				}
-
-
+			if (count == piecesInARow - 1) {
+				return true;
 			}
-
-			piecesInARow = 1;
-			i_value = i;
-			j_value = j;
-
-			while (i_value > 0 && j_value > 0) {
-				i_value--; 
-				j_value--; 
-
-				if (pieceOnBoard == board[i_value][j_value] && pieceOnBoard != " ") {
-					piecesInARow++;
-
-					//check to see if the pieces in a row is equal to 5
-					if (piecesInARow == 5) {
-
-						return true;
-					}
-				}
-				else {
-					//reset the pieces in a row back to 1
-					piecesInARow = 1;
-				}
-
-			}
-			piecesInARow = 1;
-			i_value = i;
-			j_value = j;
-			while (i_value < _height && j_value < _height) {
-				i_value++; 
-				j_value++; 
-			
-				if (pieceOnBoard == board[i_value][j_value] && pieceOnBoard != " ") {
-					piecesInARow++;
-
-					//check to see if the pieces in a row is equal to 5
-					if (piecesInARow == 5) {
-
-						return true;
-					}
-				}
-				else {
-					//reset the pieces in a row back to 1
-					piecesInARow = 1;
-				}
-
-			}
-
-			//going to the up vertically -- check for 5
-			i_value = i; 
-			piecesInARow = 1; 
-			while (i_value < _height) {
-				i_value++; 
-				if (pieceOnBoard == board[i_value][j] && pieceOnBoard != " ") {
-					piecesInARow++;
-
-					//check to see if the pieces in a row is equal to 5
-					if (piecesInARow == 5) {
-
-						return true;
-					}
-				}
-				else {
-					//reset the pieces in a row back to 1
-					piecesInARow = 1;
-				}
-
-
-			}
-
-			//going down vertically -- check for 5
-			i_value = i; 
-			piecesInARow = 1; 
-			while (i_value > 0) {
-				i_value--; 
-				if (pieceOnBoard == board[i_value][j] && pieceOnBoard != " ") {
-					piecesInARow++;
-
-					//check to see if the pieces in a row is equal to 5
-					if (piecesInARow == 5) {
-
-						return true;
-					}
-				}
-				else {
-					//reset the pieces in a row back to 1
-					piecesInARow = 1;
-				}
-
-			}
-
-			//going to the right -- check for 5
-			j_value = j; 
-			piecesInARow = 1; 
-			while (j_value < _width) {
-				j_value++; 
-				if (pieceOnBoard == board[i][j_value] && pieceOnBoard != " ") {
-					piecesInARow++;
-
-					//check to see if the pieces in a row is equal to 5
-					if (piecesInARow == 5) {
-
-						return true;
-					}
-				}
-				else {
-					//reset the pieces in a row back to 1
-					piecesInARow = 1;
-				}
-
-			}
-
-			//going to the left--check for 5
-
-			j_value = j; 
-			piecesInARow = 1; 
-			while (j_value > 0) {
-				j_value--; 
-				if (pieceOnBoard == board[i][j_value] && pieceOnBoard != " ") {
-					piecesInARow++;
-
-					//check to see if the pieces in a row is equal to 5
-					if (piecesInARow == 5) {
-
-						return true;
-					}
-				}
-				else {
-					//reset the pieces in a row back to 1
-					piecesInARow = 1;
-				}
-				
-			}
- 
-
-
 		}
 	}
-
+	count = 0;
+	for (int i = 1; i < _width; ++i) {
+		int xval = i;
+		int yval = 0;
+		while (xval < _width && yval < _height) {
+			xval++;
+			yval++;
+			if (xval > i && yval > 0 && xval < _width && yval < _height) {
+				pieceCheck = board.at((__int64)_width * yval + xval);
+				if (pieceCheck == board.at((__int64)_width * ((__int64)yval - 1) + ((__int64)xval - 1)) && pieceCheck != " ") {
+					++count;
+				}
+				else {
+					count = 0;
+				}
+			}
+			if (count == piecesInARow - 1) {
+				return true;
+			}
+		}
+	}
+	//check diagonals going bottom right to top left
+	count = 0;
+	for (int i = 0; i < _height; ++i) {
+		int xval = _width;
+		int yval = i;
+		while (xval > 0 && yval < _height) {
+			xval--;
+			yval++;
+			if (xval < _width && yval > i && xval > 0 && yval < _height) {
+				pieceCheck = board.at((__int64)_width * yval + xval);
+				if (pieceCheck == board.at((__int64)_width * ((__int64)yval - 1) + ((__int64)xval + 1)) && pieceCheck != " ") {
+					++count;
+				}
+				else {
+					count = 0;
+				}
+			}
+			if (count == piecesInARow - 1) {
+				return true;
+			}
+		}
+	}
+	count = 0;
+	for (int i = 0; i < _width; ++i) {
+		int xval = i;
+		int yval = 0;
+		while (xval > 0 && yval < _height) {
+			xval--;
+			yval++;
+			if (xval < i && yval > 0 && xval > 0 && yval < _height) {
+				pieceCheck = board.at((__int64)_width * yval + xval);
+				if (pieceCheck == board.at((__int64)_width * ((__int64)yval - 1) + ((__int64)xval + 1)) && pieceCheck != " ") {
+					++count;
+				}
+				else {
+					count = 0;
+				}
+			}
+			if (count == piecesInARow - 1) {
+				return true;
+			}
+		}
+	}
+	//check vertical pieces in a row
+	count = 0;
+	for (int i = 0; i < _width; ++i) {
+		for (int j = 0; j < _height; ++j) {
+			pieceCheck = board.at((__int64)_width * j + i);
+			if (j > 0) {
+				if (pieceCheck == board.at((__int64)_width * ((__int64)j-1) + i) && pieceCheck != " ") {
+					++count;
+				}
+				else {
+					count = 0;
+				}
+			}
+			if (count == piecesInARow-1) {
+				return true;
+			}
+		}
+		count = 0;
+	}
+	//check horizontal pieces in a row
+	count = 0;
+	for (int i = 0; i < _height; ++i) {
+		for (int j = 0; j < _width; ++j) {
+			pieceCheck = board.at((__int64)_width * i + j);
+			if (j > 0) {
+				if (pieceCheck == board.at((__int64)_width * i + j - 1) && pieceCheck != " ") {
+					++count;
+				}
+				else {
+					count = 0;
+				}
+			}
+			if (count == piecesInARow-1) {
+				return true;
+			}
+		}
+		count = 0;
+	}
+	return false;
 }
 
 

@@ -39,8 +39,8 @@ error Game::prompt(unsigned int& xcoord, unsigned int& ycoord) {
 		return error::failure;
 	}
 	iss >> xcoord >> ycoord;
-	if (xcoord > 0 && xcoord < 4 && ycoord>0 && ycoord < 4) {
-		if (board[xcoord][ycoord] == " ") {
+	if (xcoord > 0 && xcoord < _width && ycoord>0 && ycoord < _height) {
+		if (board.at((__int64)_width*(__int64)ycoord+xcoord) == " ") {
 			cout << "Placed: " << xcoord << "," << ycoord << endl;
 			return error::success;
 		}
