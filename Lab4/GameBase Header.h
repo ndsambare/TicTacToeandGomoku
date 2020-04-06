@@ -22,21 +22,20 @@ enum result {
 class Game {
 
 public:
-	virtual result play() = 0;
-	
-	int turns;
-	static Game* create_game(int argc, char* argv[]);
+	result play();
+	static Game* create_game(int, char*[]);
 protected:
 	virtual void print() = 0;
 	virtual bool done() = 0;
 	virtual bool draw() = 0;
 	virtual error turn() = 0;
 	virtual error prompt(unsigned int&, unsigned int&);
-	string board[20][20];
+	string board[5][5];
 	//we have to fix the game board and once we fix that we have to make sure the rest of our code is compatible with the working game board
 	int _width;
 	int _height;
 	int longestStringLength;
+	int turns;
 };
 
 

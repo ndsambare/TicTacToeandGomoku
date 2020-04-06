@@ -1,5 +1,5 @@
 
-#include "TicTacToe.h"
+#include "Gomoku.h"
 #include "GameBase Header.h"
 #include "Main Header.h"
 
@@ -8,9 +8,11 @@ using namespace std;
 // We also have to apparently add a Gomoku constructor that takes in parameters, and we need a done method that takes in some parameters also 
 //Other than that, we have to fix the constructor that already exists so that it is compatible with the GameBase class we have
 
-Gomoku::Gomoku() {
-	_width, _height = width;
-
+Gomoku::Gomoku()
+{
+	_width = 20;
+	_height = _width;
+	
 	for (int i = 0; i < _width; ++i) {
 		for (int j = 0; j < _height; ++j) {
 			board[i][j] = " ";
@@ -18,35 +20,31 @@ Gomoku::Gomoku() {
 	}
 }
 
-int Gomoku::turn() {
-
+error Gomoku::turn() {
+	return error::success;
 }
 
 
 
 
 //prints out the gameboard with the dimensions along the sides
-ostream& operator<<(ostream& out, const Gomoku& gomoku) {
-	for (int i = gomoku._height - 1; i >= 0; i--) {
-		out << setw(gomoku.longestStringLength) << i;
-		for (int j = 0; j < gomoku._width; j++) {
-			int gomokuIndex = j * gomoku.width_ + i; 
-			out << setw(gomoku.longestStringLength) << gomoku.board[index];
-
-			}
+ostream& operator<<(ostream& out, const Gomoku& f) {
+	for (int i = f._height - 1; i >= 0; i--) {
+		out << setw(f.longestStringLength) << i;
+		for (int j = 0; j < f._width; j++) {
+			out << setw(f.longestStringLength) << f.board[i][j];
 		}
 		out << endl;
 	}
-out << setw(gomoku.longestStringLength) << " ";
-	for (int i = 0; i < gomoku._width; i++) {
-		out << setw(gomoku.longestStringLength) << i;
+	out << "X";
+	for (int i = 0; i < f._width; i++) {
+		out << setw(f.longestStringLength) << i;
 	}
-	out << endl; 
 	return out;
 }
 
 void Gomoku::print() {
-	cout << *this; 
+	cout << *this << endl; 
 }
 
 bool Gomoku::draw() {
@@ -55,10 +53,9 @@ bool Gomoku::draw() {
 		return false; 
 	}
 	else {
-		for (int i = 0; i < gomoku.height_; i++) {
-			for (int j = 0; j < gomoku.width_; j++) {
-				int gameIndex = gomoku.width_ * i + j;
-				if (board[gameIndex] == " ") {
+		for (int i = 0; i < _height; i++) {
+			for (int j = 0; j < _width; j++) {
+				if (board[i][j] == " ") {
 					return false;
 				}
 			}
@@ -69,9 +66,9 @@ bool Gomoku::draw() {
 }
 
 bool Gomoku::done() {
-	for (int i = 0; i < gomoku.height_; i++) {
-		for (int j = 0; j < gomoku.width_; j++) {
-			int doneIndex = gomoku.width_ * i + j; 
+	for (int i = 0; i < _height; i++) {
+		for (int j = 0; j < _width; j++) {
+			int doneIndex = _width * i + j; 
 			string pieceOnBoard = "";
 			pieceOnBoard = board[i][j]; 
 
@@ -80,7 +77,7 @@ bool Gomoku::done() {
 			int i_value = i; 
 			int j_value = j; 
 
-			while (j_value > 0 && i_value < gomoku.height_) {
+			while (j_value > 0 && i_value < _height) {
 				//we are checking the diagonal going from right to left, so the i value increases, but the j value decreases
 				i_value = i_value + 1; 
 				j_value = j_value - 1; 
@@ -103,7 +100,7 @@ bool Gomoku::done() {
 			piecesInARow = 1; 
 			i_value = i; 
 			j_value = j;
-			while (i_value > 0 && j_value < gomoku.height_) {
+			while (i_value > 0 && j_value < _height) {
 				i_value--; 
 				j_value++; 
 
@@ -150,7 +147,7 @@ bool Gomoku::done() {
 			piecesInARow = 1;
 			i_value = i;
 			j_value = j;
-			while (i_value < gomoku.height_ && j_value < gomoku.height_) {
+			while (i_value < _height && j_value < _height) {
 				i_value++; 
 				j_value++; 
 			
@@ -173,7 +170,7 @@ bool Gomoku::done() {
 			//going to the up vertically -- check for 5
 			i_value = i; 
 			piecesInARow = 1; 
-			while (i_value < gomoku.height_) {
+			while (i_value < _height) {
 				i_value++; 
 				if (pieceOnBoard == board[i_value][j] && pieceOnBoard != " ") {
 					piecesInARow++;
@@ -216,7 +213,7 @@ bool Gomoku::done() {
 			//going to the right -- check for 5
 			j_value = j; 
 			piecesInARow = 1; 
-			while (j_value < gomoku.width_) {
+			while (j_value < _width) {
 				j_value++; 
 				if (pieceOnBoard == board[i][j_value] && pieceOnBoard != " ") {
 					piecesInARow++;
@@ -237,7 +234,7 @@ bool Gomoku::done() {
 			//going to the left--check for 5
 
 			j_value = j; 
-			piecesInArow = 1; 
+			piecesInARow = 1; 
 			while (j_value > 0) {
 				j_value--; 
 				if (pieceOnBoard == board[i][j_value] && pieceOnBoard != " ") {

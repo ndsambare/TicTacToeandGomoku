@@ -3,20 +3,23 @@
 
 #include <iostream>
 #include "Main Header.h"
-#include "GameBase Header.h"
 #include "TicTacToe.h"
 #include <memory>
+
+class Game;
+class TicTacToe;
+class Gomoku;
 
 //Main method that calls the TicTacToe game to be played
 int main(int argc, char* argv[])
 {
-	//Game* game = Game::create_game(argc, argv);
+	Game* game = Game::create_game(argc, argv);
 	//if (game == 0) {
 	//	return usageMessage(argv[progname]);
 	//}
-	TicTacToe game = TicTacToe();
-	game.play();
-	
+	//sharedptr
+	result res = game->play();
+	cout << res << endl;
 	
 	return usageMessage(argv[progname]);
 }

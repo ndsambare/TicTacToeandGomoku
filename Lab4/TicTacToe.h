@@ -3,9 +3,10 @@
 #include "GameBase Header.h"
 
 class TicTacToe : public Game {
-	friend ostream& operator<<(ostream& out, const TicTacToe& f);
+	
 
 public:
+	friend ostream& operator<<(ostream& out, const TicTacToe& f);
 	TicTacToe();
 	virtual bool done();
 	virtual bool draw();
@@ -13,8 +14,7 @@ public:
 	virtual void print() {
 		cout << *this << endl;
 	}
-	virtual result play();
-	Piece winner;
+	string winner;
 };
 
-ostream& operator<<(ostream& out, const TicTacToe& f);
+ostream& operator<<(ostream&, const TicTacToe&);

@@ -24,6 +24,9 @@
     <ClCompile Include="TicTacToe.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="Gomoku.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="GameBase Header.h">
@@ -33,6 +36,9 @@
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="TicTacToe.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Gomoku.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>

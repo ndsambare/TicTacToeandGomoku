@@ -2,17 +2,19 @@
 #include "GameBase Header.h"
 #include "Main Header.h"
 #include "TicTacToe.h"
+#include "Gomoku.h"
+
 //we have to add a play method in GameBase I think 
-Game* create_game(int argc, char* argv[]) {
-	shared_ptr<Game> pointer = nullptr;
-	if (argv[1] == "TicTacToe") {
-		return (class Game*) new TicTacToe();
+Game* Game::create_game(int argc, char* argv[]) {
+	cout << argv[1] << endl;
+	if (strcmp(argv[1], "TicTacToe")==0) {
+		return new TicTacToe();
 	}
-	else if (argv[1] == "Gomoku") {
-		return (class Game*) new Gomoku();
+	else if (strcmp(argv[1],"Gomoku")==0) {
+		return new Gomoku();
 	}
 	else {
-		return 0;
+		return nullptr;
 	}
 }
 
@@ -31,14 +33,15 @@ error Game::prompt(unsigned int& xcoord, unsigned int& ycoord) {
 		cout << "quit" << endl;
 		return error::quit;
 	}
+	
 	istringstream iss(save);
 	if (save.length() > 3) {
 		return error::failure;
 	}
-	string x, y;
 	iss >> xcoord >> ycoord;
 	if (xcoord > 0 && xcoord < 4 && ycoord>0 && ycoord < 4) {
-		if (board[xcoord][ycoord] == Piece::empty) {
+		cout << "Piece is: ." << board[xcoord][ycoord] << "."<< endl;
+		if (board[xcoord][ycoord] == " ") {
 			cout << "Placed: " << xcoord << "," << ycoord << endl;
 			return error::success;
 		}
@@ -46,3 +49,37 @@ error Game::prompt(unsigned int& xcoord, unsigned int& ycoord) {
 	return error::failure;
 }
 
+//calls the turn function repeatedly until i) someone has won 2) there is a draw or 3) someone has quit
+result Game::play() {
+	bool end = true;
+	result res;
+	while (end == true) {
+		cout << "Turn: " << turns << endl;
+		cout << Game::_width << endl;
+		error result = turn();
+		if (result == error::quit) {
+			cout << "User has quit. There have been " << turns << " rounds." << endl;
+			res = result::quitEnd;
+			break;
+		}
+		if (done() == true) {
+			if (winner == Piece::o) {
+				cout << "Player O has won!" << endl;
+			}
+			if (winner == Piece::x) {
+				cout << "Player X has won!" << endl;
+			}
+			res = result::winner;
+			end = false;
+			break;
+		}
+		if (draw() == true) {
+			cout << "It's a draw!" << endl;
+			res = result::draw;
+			end = false;
+			break;
+		}
+		cout << "-------------------------------" << endl;
+	}
+	return res;
+}
