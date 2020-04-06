@@ -40,7 +40,6 @@ error Game::prompt(unsigned int& xcoord, unsigned int& ycoord) {
 	}
 	iss >> xcoord >> ycoord;
 	if (xcoord > 0 && xcoord < 4 && ycoord>0 && ycoord < 4) {
-		cout << "Piece is: ." << board[xcoord][ycoord] << "."<< endl;
 		if (board[xcoord][ycoord] == " ") {
 			cout << "Placed: " << xcoord << "," << ycoord << endl;
 			return error::success;
@@ -55,7 +54,6 @@ result Game::play() {
 	result res;
 	while (end == true) {
 		cout << "Turn: " << turns << endl;
-		cout << Game::_width << endl;
 		error result = turn();
 		if (result == error::quit) {
 			cout << "User has quit. There have been " << turns << " rounds." << endl;

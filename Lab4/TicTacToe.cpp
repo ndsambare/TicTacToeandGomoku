@@ -4,13 +4,13 @@
 TicTacToe::TicTacToe()
 	:winner("")
 {
-	Game::_width,Game::_height = 5;
+	Game::_width = 5;
+	Game::_height = 5;
 	turns = 0;
-	longestStringLength = 3;
+	longestStringLength = 2;
 
 	for (int i = 0; i < _width; ++i) {
 		for (int j = 0; j < _height; ++j) {
-			cout << "nice";
 			board[i][j] = " ";
 		}
 	}
@@ -21,7 +21,7 @@ ostream& operator<<(ostream& out, const TicTacToe& f) {
 	for (int i = f._height - 1; i >= 0; i--) {
 		out << setw(3) << i;
 		for (int j = 0; j < f._width; j++) {
-			out << setw(3) << f.board[i][j];
+			out << setw(3) << f.board[j][i];
 		}
 		out << endl;
 	}

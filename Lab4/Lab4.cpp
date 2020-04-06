@@ -14,10 +14,6 @@ class Gomoku;
 int main(int argc, char* argv[])
 {
 	Game* game = Game::create_game(argc, argv);
-	//if (game == 0) {
-	//	return usageMessage(argv[progname]);
-	//}
-	//sharedptr
 	result res = game->play();
 	cout << res << endl;
 	
