@@ -37,8 +37,8 @@ protected:
 	int _width;
 	int _height;
 	int longestStringLength;
-	int turns;
-	bool isGomoku; 
+	int turns; 
+	bool isGomoku;
 };
 
 

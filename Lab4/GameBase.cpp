@@ -8,11 +8,9 @@
 Game* Game::create_game(int argc, char* argv[]) {
 	cout << argv[1] << endl;
 	if (strcmp(argv[1], "TicTacToe")==0) {
-		bool isGomoku = false; 
 		return new TicTacToe();
 	}
 	else if (strcmp(argv[1],"Gomoku")==0) {
-		bool isGomoku = true; 
 		return new Gomoku();
 	}
 	else {
@@ -41,7 +39,7 @@ error Game::prompt(unsigned int& xcoord, unsigned int& ycoord) {
 		return error::failure;
 	}
 	iss >> xcoord >> ycoord;
-	if (isGomoku == false) {
+	if (isGomoku == 0) {
 		if (xcoord > 0 && xcoord <= indices::maxTicTacToe && ycoord > 0 && ycoord <= indices::maxTicTacToe) {
 			if (board.at((__int64)_width * (__int64)ycoord + xcoord) == " ") {
 				cout << "Placed: " << xcoord << "," << ycoord << endl;
@@ -49,10 +47,12 @@ error Game::prompt(unsigned int& xcoord, unsigned int& ycoord) {
 			}
 		}
 	}
-	if (xcoord > 0 && xcoord < _width && ycoord>0 && ycoord < _height) {
-		if (board.at((__int64)_width*(__int64)ycoord+xcoord) == " ") {
-			cout << "Placed: " << xcoord << "," << ycoord << endl;
-			return error::success;
+	if (isGomoku == 1) {
+		if (xcoord >= 0 && xcoord < _width && ycoord >= 0 && ycoord < _height) {
+			if (board.at((__int64)_width * (__int64)ycoord + xcoord) == " ") {
+				cout << "Placed: " << xcoord << "," << ycoord << endl;
+				return error::success;
+			}
 		}
 	}
 	return error::failure;

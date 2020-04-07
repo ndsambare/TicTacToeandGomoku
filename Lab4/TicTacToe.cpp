@@ -8,7 +8,7 @@ TicTacToe::TicTacToe()
 	Game::_height = 5;
 	turns = 0;
 	longestStringLength = 2;
-
+	isGomoku = false;
 	for (int i = 0; i < _height; ++i) {
 		for (int j = 0; j < _width; ++j) {
 			board.push_back(" ");
@@ -25,7 +25,7 @@ ostream& operator<<(ostream& out, const TicTacToe& f) {
 		}
 		out << endl;
 	}
-	out << "   ";
+	out << "  ";
 	for (int i = 0; i < f._width; i++) {
 		out << setw(f.longestStringLength) << i;
 	}
@@ -94,7 +94,6 @@ error TicTacToe::turn() {
 	unsigned int& xref = x;
 	unsigned int& yref = y;
 	error result = prompt(xref, yref);
-	cout << result << endl;
 	while (result == error::failure) {
 		result = prompt(xref, yref);
 	}

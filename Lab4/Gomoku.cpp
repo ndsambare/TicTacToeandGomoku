@@ -14,7 +14,7 @@ Gomoku::Gomoku()
 	Game::_height = _width;
 	piecesInARow = 5;
 	longestStringLength = 3;
-
+	isGomoku = true;
 	for (int i = 0; i < _height; ++i) {
 		for (int j = 0; j < _width; ++j) {
 			board.push_back(" ");
