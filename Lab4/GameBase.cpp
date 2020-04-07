@@ -8,9 +8,11 @@
 Game* Game::create_game(int argc, char* argv[]) {
 	cout << argv[1] << endl;
 	if (strcmp(argv[1], "TicTacToe")==0) {
+		bool isGomoku = false; 
 		return new TicTacToe();
 	}
 	else if (strcmp(argv[1],"Gomoku")==0) {
+		bool isGomoku = true; 
 		return new Gomoku();
 	}
 	else {
@@ -35,10 +37,18 @@ error Game::prompt(unsigned int& xcoord, unsigned int& ycoord) {
 	}
 	
 	istringstream iss(save);
-	if (save.length() > 3) {
+	if (save.length() > 5) {
 		return error::failure;
 	}
 	iss >> xcoord >> ycoord;
+	if (isGomoku == false) {
+		if (xcoord > 0 && xcoord <= indices::maxTicTacToe && ycoord > 0 && ycoord <= indices::maxTicTacToe) {
+			if (board.at((__int64)_width * (__int64)ycoord + xcoord) == " ") {
+				cout << "Placed: " << xcoord << "," << ycoord << endl;
+				return error::success;
+			}
+		}
+	}
 	if (xcoord > 0 && xcoord < _width && ycoord>0 && ycoord < _height) {
 		if (board.at((__int64)_width*(__int64)ycoord+xcoord) == " ") {
 			cout << "Placed: " << xcoord << "," << ycoord << endl;
@@ -52,7 +62,7 @@ error Game::prompt(unsigned int& xcoord, unsigned int& ycoord) {
 result Game::play() {
 	bool end = true;
 	result res;
-	while (end == true) {
+	while (end) {
 		cout << "Turn: " << turns << endl;
 		error result = turn();
 		if (result == error::quit) {
@@ -60,13 +70,23 @@ result Game::play() {
 			res = result::quitEnd;
 			break;
 		}
-		if (done() == true) {
-			if (winner == Piece::o) {
-				cout << "Player O has won!" << endl;
+		if (done()) {
+			if (isGomoku) {
+				if (winner == Piece::o) {
+					cout << "Player W has won!" << endl;
+				}
+				if (winner == Piece::x) {
+					cout << "Player B has won!" << endl;
+				}
+			} else {
+				if (winner == Piece::o) {
+					cout << "Player O has won!" << endl;
+				}
+				if (winner == Piece::x) {
+					cout << "Player X has won!" << endl;
+				}
 			}
-			if (winner == Piece::x) {
-				cout << "Player X has won!" << endl;
-			}
+			
 			res = result::winner;
 			end = false;
 			break;

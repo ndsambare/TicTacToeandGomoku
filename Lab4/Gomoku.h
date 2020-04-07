@@ -12,7 +12,8 @@ public:
 	Gomoku(); 
 	//apparently there's also supposed to be a Gomoku constructor that takes in parameters
 	virtual bool draw(); 
-	virtual bool done(); 
+	virtual bool done();
+	virtual bool done(vector<string>& copy);
 	virtual error turn();
 	virtual void print();
 protected: 

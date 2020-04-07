@@ -4,6 +4,9 @@
 enum Piece {
 	x, o, empty
 };
+enum indices {
+	maxTicTacToe = 3
+};
 
 struct game_piece {
 	Piece display;
@@ -35,6 +38,7 @@ protected:
 	int _height;
 	int longestStringLength;
 	int turns;
+	bool isGomoku; 
 };
 
 
