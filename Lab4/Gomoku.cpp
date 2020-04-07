@@ -86,7 +86,11 @@ void Gomoku::print() {
 	cout << *this << endl; 
 }
 
+//checks 3 criteria: i) if board is full, ii) if someone has won iii) if it is possible for either player to win
 bool Gomoku::draw() {
+	//to check if either player can win, we make a two copies of the game board
+	//for both copies, we will fill the empty spots on the board with all black or white pieces
+	//if done(copy) returns true, then it is possible for that player to win
 	vector<string> blackBoardCopy;
 	vector<string> whiteBoardCopy;
 	for (int i = 0; i < _height; i++) {
@@ -110,13 +114,11 @@ bool Gomoku::draw() {
 	}
 
 	if (done(blackBoardCopy) == false) {
-		return true; 
+		return false; 
 	}
 	if (done(whiteBoardCopy) == false) {
-		return true; 
+		return false; 
 	}
-
-
 	if (done()) {
 		return false; 
 	}
