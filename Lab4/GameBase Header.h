@@ -1,29 +1,28 @@
 #pragma once
 #include "Main Header.h"
 
-enum Piece {
-	x, o, empty
-};
+//sets the max index for TicTicToe
 enum indices {
 	maxTicTacToe = 3
 };
 
-struct game_piece {
-	Piece display;
-	int xcoord;
-	int ycoord;
-};
-
+//possible error messages
 enum error {
-	success, failure, quit
+	success, failure, quit, badInput
 };
 
+//different results possible at the end of every turn
 enum result {
 	winner, draw, quitEnd
 };
 
-class Game {
+//values in a row for Gomoku
+enum values {
+	inARow = 5
+};
 
+//base class, contains functions and member variables applicable to multiple games
+class Game {
 public:
 	result play();
 	static Game* create_game(int, char*[]);
@@ -39,6 +38,7 @@ protected:
 	int longestStringLength;
 	int turns; 
 	bool isGomoku;
+	string winner;
 };
 
 

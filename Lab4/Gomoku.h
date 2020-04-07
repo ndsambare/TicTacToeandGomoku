@@ -2,15 +2,12 @@
 #include "GameBase Header.h"
 #include "Main Header.h"
 
-//We have to declare the second constructor and also probably add protected variables
 
-
+//derived class of the base class Game, defines functions that allow the game Gomoku to be played
 class Gomoku : public Game {
-	friend ostream& operator<<(ostream& out, const Gomoku& f);
-
 public: 
+	friend ostream& operator<<(ostream& out, const Gomoku& f);
 	Gomoku(); 
-	//apparently there's also supposed to be a Gomoku constructor that takes in parameters
 	virtual bool draw(); 
 	virtual bool done();
 	virtual bool done(vector<string>& copy);

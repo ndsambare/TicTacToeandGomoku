@@ -4,10 +4,8 @@
 #include "Main Header.h"
 
 using namespace std;
-//what to work on: the turn method I didn't know how to implement because I can't figure out what the game board is doing
-// We also have to apparently add a Gomoku constructor that takes in parameters, and we need a done method that takes in some parameters also 
-//Other than that, we have to fix the constructor that already exists so that it is compatible with the GameBase class we have
 
+//constructor
 Gomoku::Gomoku()
 {
 	Game::_width = 20;
@@ -15,6 +13,7 @@ Gomoku::Gomoku()
 	piecesInARow = 5;
 	longestStringLength = 3;
 	isGomoku = true;
+	winner = "";
 	for (int i = 0; i < _height; ++i) {
 		for (int j = 0; j < _width; ++j) {
 			board.push_back(" ");
@@ -22,6 +21,7 @@ Gomoku::Gomoku()
 	}
 }
 
+//indicates whose turn it is and adds the valid input coordinate to the board
 error Gomoku::turn() {
 	string piece;
 	if (turns % 2 == 0) { //Blacks's turn
@@ -75,13 +75,14 @@ ostream& operator<<(ostream& out, const Gomoku& f) {
 		}
 		out << endl;
 	}
-	out << "  B";
+	out << "  X";
 	for (int i = 0; i < f._width; i++) {
 		out << i << setw(f.longestStringLength);
 	}
 	return out;
 }
 
+//function that calls the ostream to print
 void Gomoku::print() {
 	cout << *this << endl; 
 }
@@ -135,7 +136,7 @@ bool Gomoku::draw() {
 
 }
 
-
+//version of the done() method that takes in a copy of the game board rather than the actual game board
 bool Gomoku::done(vector<string> &copy) {
 	int count = 0;
 	string pieceCheck;
@@ -265,11 +266,7 @@ bool Gomoku::done(vector<string> &copy) {
 	return false;
 }
 
-
-
-
-
-
+//checks to see if the game board has 5 in a row anywhere (diagonal, vertical, horizontal)
 bool Gomoku::done() {
 	int count = 0;
 	string pieceCheck;
@@ -290,6 +287,7 @@ bool Gomoku::done() {
 				}
 			}
 			if (count == piecesInARow - 1) {
+				winner = pieceCheck;
 				return true;
 			}
 		}
@@ -311,6 +309,7 @@ bool Gomoku::done() {
 				}
 			}
 			if (count == piecesInARow - 1) {
+				winner = pieceCheck;
 				return true;
 			}
 		}
@@ -333,6 +332,7 @@ bool Gomoku::done() {
 				}
 			}
 			if (count == piecesInARow - 1) {
+				winner = pieceCheck;
 				return true;
 			}
 		}
@@ -354,6 +354,7 @@ bool Gomoku::done() {
 				}
 			}
 			if (count == piecesInARow - 1) {
+				winner = pieceCheck;
 				return true;
 			}
 		}
@@ -372,6 +373,7 @@ bool Gomoku::done() {
 				}
 			}
 			if (count == piecesInARow-1) {
+				winner = pieceCheck;
 				return true;
 			}
 		}
@@ -391,6 +393,7 @@ bool Gomoku::done() {
 				}
 			}
 			if (count == piecesInARow-1) {
+				winner = pieceCheck;
 				return true;
 			}
 		}

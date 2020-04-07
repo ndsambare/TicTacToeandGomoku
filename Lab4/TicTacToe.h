@@ -2,9 +2,8 @@
 
 #include "GameBase Header.h"
 
+//derived class of the base class Game, defines functions that allow the game TicTacToe to be played
 class TicTacToe : public Game {
-	
-
 public:
 	friend ostream& operator<<(ostream& out, const TicTacToe& f);
 	TicTacToe();
@@ -14,7 +13,6 @@ public:
 	virtual void print() {
 		cout << *this << endl;
 	}
-	string winner;
 };
 
 ostream& operator<<(ostream&, const TicTacToe&);
