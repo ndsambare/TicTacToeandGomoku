@@ -4,7 +4,7 @@
 #include "TicTacToe.h"
 #include "Gomoku.h"
 
-//we have to add a play method in GameBase I think 
+//parses the input and returns a pointer to an instance of the derived game class to be played
 Game* Game::create_game(int argc, char* argv[]) {
 	cout << argv[1] << endl;
 	if (strcmp(argv[1], "TicTacToe")==0) {
@@ -71,18 +71,18 @@ result Game::play() {
 			break;
 		}
 		if (done()) {
-			if (isGomoku) {
-				if (winner == Piece::o) {
+			if (isGomoku == 1) {
+				if (winner == "W") {
 					cout << "Player W has won!" << endl;
 				}
-				if (winner == Piece::x) {
+				if (winner == "B") {
 					cout << "Player B has won!" << endl;
 				}
 			} else {
-				if (winner == Piece::o) {
+				if (winner == "O") {
 					cout << "Player O has won!" << endl;
 				}
-				if (winner == Piece::x) {
+				if (winner == "X") {
 					cout << "Player X has won!" << endl;
 				}
 			}

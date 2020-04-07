@@ -2,13 +2,13 @@
 
 //constructor
 TicTacToe::TicTacToe()
-	:winner("")
 {
 	Game::_width = 5;
 	Game::_height = 5;
 	turns = 0;
 	longestStringLength = 2;
 	isGomoku = false;
+	winner = "";
 	for (int i = 0; i < _height; ++i) {
 		for (int j = 0; j < _width; ++j) {
 			board.push_back(" ");
@@ -44,7 +44,6 @@ bool TicTacToe::done() {
 
 	//check columns
 	for (int i = 1; i < _width - 1; i++) {
-		//if (board[i][1] == board[i][2] && board[i][1] == board[i][3] && board[i][1] != " ") {
 		if(board.at((__int64)_width*1+i) == board.at((__int64)_width*2+i) && board.at((__int64)_width * 1 + i) == board.at((__int64)_width * 3 + i) && board.at((__int64)_width*1+i)!= " ") {
 			winner = board.at((__int64)_width*1+i);
 			return true;
@@ -52,12 +51,10 @@ bool TicTacToe::done() {
 	}
 
 	//check diags
-	//if (board[1][1] == board[2][2] && board[1][1] == board[3][3] && board[1][1] != " ") {
 	if (board.at((__int64)_width*1+1)==board.at((__int64)_width*2+2) && board.at((__int64)_width*1+1)==board.at((__int64)_width*3+3) && board.at((__int64)_width*1+1) != " ") {
 		winner = board.at((__int64)_width*1+1);
 		return true;
 	}
-	//if (board[1][3] == board[2][2] && board[1][3] == board[3][1] && board[1][3] != " ") {
 	if (board.at((__int64)_width*3+1)==board.at((__int64)_width*2+2) && board.at((__int64)_width*3+1)==board.at((__int64)_width*1+3) && board.at((__int64)_width*3+1)!=" ") {
 		winner = board.at((__int64)_width*3+1);
 		return true;

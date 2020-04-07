@@ -9,12 +9,9 @@
 
 using namespace std;
 
+//different input types
 enum arg {
-	progname, filename, expCommands, expCommands2
+	progname, filename, expCommands
 };
 
 int usageMessage(char*);
-
-enum values {
-	inARow = 5
-};
