@@ -2,16 +2,15 @@ Name: Namit Sambare and William Loh  Project: Lab 4
 
 Errors: 
 Error 1 - 
-One error that we kept running into was that every time I put my first piece down, the game would be declared a draw. The draw method checks first to see if (even if there is white space)
-there can be no piece that wins the game. Of course, the draw method also returns a draw if the board is full and the game is not won as well. 
+One error that we kept running into was that every time I put my first piece down, the game would be declared a draw. The draw method checks first to see if (even if there is white space) there can be no piece that wins the game. Of course, the draw method also returns a draw if the board is full and the game is not won as well. 
 
-Solution - 
+Solution - Our concept for implementing draw was to fill two copies of the board with all white or all black pieces in the empty slots. If this copy of the board returned true for done() that means that player could still win. Our code was right initially, we just returned true when we should've returned true for that part.
 
 Error 2 - 
 Another error is that when the TicTacToe game is played, the user is allowed to put a piece in indices with 0 or 4. Also, the spacing of the game board does not match up with 
 the piece coordinates. 
 
-Solution - 
+Solution - We added a protected member variable called "isGomoku" that indicates whether or not the game being played is Gomoku or not. If it isn't, then we have constraints in the prompt() method that will adjust accordingly. 
 
 
 Trial 1: Input: "Lab 4.exe TicTacToe"
